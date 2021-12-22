@@ -10,22 +10,7 @@ const forecast = (long, lat, callback) => {
         else if(bodyError){
             callback('Unable to find location', undefined)
         }else{
-            let uvrating = ''
-            if(current.uv_index < 3){
-                uvrating = current.uv_index + ' - Low'  
-           }
-            else if(current.uv_index < 7){
-                 uvrating = current.uv_index + ' - Moderate'  
-            }
-            else if(current.uv_index < 9){
-                uvrating = current.uv_index + ' - High'  
-           }
-           else if(current.uv_index < 12){
-            uvrating = current.uv_index + ' - Very High'  
-       } else{
-        uvrating = current.uv_index + ' - Extreme'
-       }
-
+           const uvrating = GetUVRating()
             callback( undefined, {
                 weather: current.weather_descriptions,
                 current: current.temperature,
@@ -33,6 +18,25 @@ const forecast = (long, lat, callback) => {
                 uv: uvrating
             })
         }   
+
+
+        function GetUVRating(uvrating = '') {
+            if (current.uv_index < 3) {
+                uvrating = current.uv_index + ' - Low'
+            }
+            else if (current.uv_index < 7) {
+                uvrating = current.uv_index + ' - Moderate'
+            }
+            else if (current.uv_index < 9) {
+                uvrating = current.uv_index + ' - High'
+            }
+            else if (current.uv_index < 12) {
+                uvrating = current.uv_index + ' - Very High'
+            } else {
+                uvrating = current.uv_index + ' - Extreme'
+            }
+            return uvrating
+        }
     })
 }
 
